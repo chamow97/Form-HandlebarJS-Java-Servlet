@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import sun.security.provider.MD5;
 
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*; 
 /**
  * Servlet implementation class FormServlet
  */
@@ -41,11 +45,9 @@ public class FormServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		// Get the data from the response
-		String userName = request.getParameter("userDetails");
-		// Hash the password
-//		String passwordHash = MD5.getHashString(password);
+		String userDetails = request.getParameter("userDetails");
 		PrintWriter writer = response.getWriter();
-		writer.println(userName);
+		writer.println(userDetails);
 		
 	}
 
