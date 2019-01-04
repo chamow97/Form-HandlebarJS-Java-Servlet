@@ -1,0 +1,34 @@
+body {
+	margin: 0px 0px 0px 0px;
+}
+
+.top-margin-1{
+	margin-top: 1em; 
+}
+
+.left-margin-2{
+	margin-left: 2em;
+}
+
+.right-margin-2{
+	margin-right: 2em;
+}
+
+.bold-text {
+	font-size: 2em;
+	font-weight: bolder;
+}
+
+.center-text{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.red-text{
+	color: red;
+}
+
+.green-text{
+	color: green;
+}

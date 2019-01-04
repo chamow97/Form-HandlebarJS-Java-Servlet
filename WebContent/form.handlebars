@@ -1,0 +1,59 @@
+{{> heading tagName="div"}}
+		<div class="center-text" id="form-errors">
+		</div>
+		<form>
+			
+			<div id="user-form" class="form-group">
+				<div class="row">	
+				<div class="col-sm-2 col-md-3 col-lg-3">
+				</div>
+				<div class="col-sm-8 col-md-6 col-lg-6">
+					{{#with name}}
+						<label for="{{tagId}}">{{tagName}}</label>
+						<input name="{{tagName}}" class="form-control" type="{{tagType}}" id="{{tagId}}" placeholder="{{tagPlaceHolder}}">
+					{{/with}}
+					<br />
+					<br />
+					{{#with email}}
+						<label for="{{tagId}}">{{tagName}}</label>
+						<input name="{{tagName}}" class="form-control" type="{{tagType}}" id="{{tagId}}" placeholder="{{tagPlaceHolder}}">
+					{{/with}}
+					<br />
+					<br />
+					{{#with gender}}
+						<label for="{{tagId}}">{{tagName}}</label>
+						<br />
+							<div class="btn-group" data-toggle="buttons">
+							{{#each tagChoices}}
+								  <label class="btn btn-default {{subtagClass}}">
+								  <input type="radio">
+								  {{choice}}
+								  </label>
+							{{/each}}
+							</div>
+					{{/with}}
+					<br />
+					<br />
+					{{#with password}}
+						<label for="{{tagId}}">{{tagName}}</label>
+						<input name="{{tagName}}" class="form-control" type="{{tagType}}" id="{{tagId}}" placeholder="{{tagPlaceHolder}}">
+					{{/with}}
+					<br />
+					<br />
+					{{#with confirmPassword}}
+						<label for="{{tagId}}">{{tagName}}</label>
+						<input class="form-control" type="{{tagType}}" id="{{tagId}}" placeholder="{{tagPlaceHolder}}">
+					{{/with}}
+					<br />
+					<br />
+					<div class="col col-sm-offset-3 col-md-offset-3 col-lg-offser\t-3">
+					{{#each buttons}}
+						<input class="{{tagClass}} left-margin-2 right-margin-2" onclick="{{buttonFunction}}" type="{{buttonType}}" value="{{choice}}">
+					{{/each}}
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-3 col-lg-3">
+				</div>
+			</div>
+			</div>
+		</form>
