@@ -1,9 +1,14 @@
 package FormServlet;
 
+import java.sql.Statement;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,9 +62,51 @@ public class FormServlet extends HttpServlet {
 			String userName = jObj.getString("userName");
 			String userEmail = jObj.getString("userEmail");
 			String passWord = jObj.getString("userPassword");
-			System.out.print(userName);
-			System.out.print(userEmail);
-			System.out.print(passWord);
+			// JDBC driver name and database URL
+		      final String 	_DRIVER = "com.mysql.jdbc.Driver";  
+		      final String DB_URL="jdbc:mysql://localhost/TEST";
+		      PrintWriter out = response.getWriter();
+		      //  Database credentials
+		      final String USER = "root";
+		      final String PASS = "root";
+		      
+		      try {
+		          // Register JDBC driver
+		          Class.forName("com.mysql.jdbc.Driver");
+
+		          // Open a connection
+		          Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+		          // Execute SQL query
+		          Statement stmt = conn.createStatement();
+		          String sql;
+		          sql = "SELECT userName FROM Employees";
+		          ResultSet rs = stmt.executeQuery(sql);
+
+		          // Extract data from result set
+		          while(rs.next()){
+		             //Retrieve by column name
+		             String first = rs.getString("userName");
+
+		             //Display values
+		             System.out.println(", First: " + first + "<br>");
+		          }
+		          out.println("</body></html>");
+
+		          // Clean-up environment
+		          rs.close();
+		          stmt.close();
+		          conn.close();
+		       } catch(SQLException se) {
+		          //Handle errors for JDBC
+		          se.printStackTrace();
+		       } catch(Exception e) {
+		          //Handle errors for Class.forName
+		          e.printStackTrace();
+		       }
+
+			
+			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
