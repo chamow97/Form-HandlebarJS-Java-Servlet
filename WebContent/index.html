@@ -124,8 +124,8 @@
 				$.ajax({
 				    type: "POST",
 				    url: "/UserForm/FormServlet",
-				    data: "{userDetails: " + userDetails + "}",
-				    contentType: "application/json; charset=utf-8",
+				    data: JSON.stringify(userDetails),
+				    contentType: "application/json",
 				    dataType: "json",
 				    success: function(result){
 				        alert(result);
