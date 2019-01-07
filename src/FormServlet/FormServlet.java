@@ -63,7 +63,7 @@ public class FormServlet extends HttpServlet {
 			String userEmail = jObj.getString("userEmail");
 			String passWord = jObj.getString("userPassword");
 			// JDBC driver name and database URL
-		      final String 	_DRIVER = "com.mysql.jdbc.Driver";  
+		      final String DRIVER = "com.mysql.jdbc.Driver";  
 		      final String DB_URL="jdbc:mysql://localhost/TEST";
 		      PrintWriter out = response.getWriter();
 		      //  Database credentials
@@ -74,24 +74,24 @@ public class FormServlet extends HttpServlet {
 		          // Register JDBC driver
 		          Class.forName("com.mysql.jdbc.Driver");
 
-		          // Open a connection
 		          Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-		          // Execute SQL query
 		          Statement stmt = conn.createStatement();
 		          String sql;
-		          sql = "SELECT userName FROM Employees";
+		          sql = "SELECT * FROM Employees WHERE userEmail = '" + userEmail + "';";
 		          ResultSet rs = stmt.executeQuery(sql);
-
-		          // Extract data from result set
-		          while(rs.next()){
-		             //Retrieve by column name
-		             String first = rs.getString("userName");
-
-		             //Display values
-		             System.out.println(", First: " + first + "<br>");
+		          response.setContentType("text/html;charset=UTF-8");
+		          if(!rs.next())
+		          {
+		        	  sql = "INSERT INTO Employees VALUES('" + userName + "', '" + userEmail + "', '" + passWord + "');";
+		        	  stmt.executeUpdate(sql);
 		          }
-		          out.println("</body></html>");
+		          else
+		          {
+		        	  response.setStatus(200);
+		        	  response.getWriter().write("Old User");
+		        	  System.out.println("Old user!");
+		          }
 
 		          // Clean-up environment
 		          rs.close();
