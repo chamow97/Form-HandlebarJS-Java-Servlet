@@ -42,12 +42,9 @@ public class FormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-		String json = "";
-		if(br != null) {
-			json = br.readLine();
-		}
-		System.out.print(json);
+		String userEmail = request.getParameter("userEmail");
+		String userPassword = request.getParameter("userPassword");
+		
 	}
 
 	/**
@@ -55,7 +52,7 @@ public class FormServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+//		doGet(request, response);
 		// Get the data from the response
 		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
         String json = "";
