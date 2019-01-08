@@ -42,7 +42,12 @@ public class FormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+		String json = "";
+		if(br != null) {
+			json = br.readLine();
+		}
+		System.out.print(json);
 	}
 
 	/**
@@ -85,12 +90,12 @@ public class FormServlet extends HttpServlet {
 		          {
 		        	  sql = "INSERT INTO Employees VALUES('" + userName + "', '" + userEmail + "', '" + passWord + "');";
 		        	  stmt.executeUpdate(sql);
+		        	  response.getWriter().write("1");
 		          }
 		          else
 		          {
 		        	  response.setStatus(200);
-		        	  response.getWriter().write("Old User");
-		        	  System.out.println("Old user!");
+		        	  response.getWriter().write("0");
 		          }
 
 		          // Clean-up environment

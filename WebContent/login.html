@@ -15,7 +15,7 @@
 	<!-- Handlebars -->
 	<script type="text/javascript" src="handlebars-v4.0.12.js"></script>
 	<!-- Form handlebar -->
-	<script type="text/javascript" src="form.js"></script>
+	<script type="text/javascript" src="login.js"></script>
 </head>
 <body>
 	<div id="heading"></div>
@@ -27,53 +27,30 @@
 		// var templateInfo = document.getElementById("the-template").innerHTML;
 		// var template = Handlebars.compile(templateInfo);
 		
-		var template = Handlebars.templates['form'];
+		var template = Handlebars.templates['login'];
 
 		// Partial Helper for Heading
 
 		Handlebars.registerPartial("heading", '<{{tagName}} class = "{{className}}">{{heading}}</{{tagName}}>');
 		var headingInfo = template({
-			heading: "Example Form using Handlebar JS",
+			heading: "Login",
 			className: "top-margin-1 bold-text center-text"
 		});
 		document.getElementById("heading").innerHTML += headingInfo;
 
 		// Helper for Form
 		var personInfo = template({
-			name: {
-				tagId: "user-name",
-				tagName: "Name",
-				tagPlaceHolder: "Enter your name",
-				tagType: "text"
-			},
 			email: {
 				tagId: "user-email",
 				tagName: "E-Mail",
 				tagPlaceHolder: "Enter your E-Mail ID",
 				tagType: "text"
 			},
-			gender: {
-				tagId: "user-gender",
-				tagName: "Gender",
-				tagClass: "form-check-inline",
-				tagType: "radio",
-				tagChoices: [
-					{choice: "Male",subtagClass: "active"},
-					{choice: "Female", subtagClass: ""},
-					{choice: "Other", subtagClass: ""}
-				]
-			},
 			password: {
 				tagId: "user-password",
 				tagName: "Password",
 				tagType: "password",
 				tagPlaceHolder: "Enter your password"
-			},
-			confirmPassword: {
-				tagId: "confirm-password",
-				tagName: "Confirm Password",
-				tagType: "password",
-				tagPlaceHolder: "Confirm your password"
 			},
 			buttons: [
 				{choice: "Submit", buttonType: "button", tagClass: "btn btn-success", buttonFunction: "return submitForm()"},
@@ -93,13 +70,11 @@
 		}
 
 		function submitForm() {
-			let userName = document.getElementById("user-name").value;
 			let userEmail = document.getElementById("user-email").value;
 			let userPassword = document.getElementById("user-password").value;
-			let userConfirmPassword = document.getElementById("confirm-password").value;
 			let formText = "";
 			// Check for emptiness of the fields
-			if(userName == "" || userEmail == "" || userPassword == "" || userConfirmPassword == "") {
+			if(userEmail == "" || userPassword == "") {
 				formText = "<span class='red-text'>No field should be empty!</span>";
 			}
 
@@ -109,20 +84,13 @@
 				formText = "<span class='red-text'>E-mail format does not match!</span>";
 			}
 
-			//Check for Password equality
-
-			else if(String(userPassword) != String(userConfirmPassword)) {
-				formText = "<span class='red-text'>Password does not match!</span>";
-			}
-
 			// Success
 			else {
 				var userDetails = {};
-				userDetails["userName"] = userName;
 				userDetails["userEmail"] = userEmail;
 				userDetails["userPassword"] = userPassword;
 				$.ajax({
-				    type: "POST",
+				    type: "GET",
 				    url: "/UserForm/FormServlet",
 				    data: JSON.stringify(userDetails),
 				    contentType: "application/json",
