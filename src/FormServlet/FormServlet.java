@@ -64,6 +64,7 @@ public class FormServlet extends HttpServlet {
 			String userName = jObj.getString("userName");
 			String userEmail = jObj.getString("userEmail");
 			String passWord = jObj.getString("userPassword");
+			char userGender = jObj.getString("userGender").charAt(0);
 			// JDBC driver name and database URL
 		      final String DRIVER = "com.mysql.jdbc.Driver";  
 		      final String DB_URL="jdbc:mysql://localhost/TEST";
@@ -85,7 +86,7 @@ public class FormServlet extends HttpServlet {
 		          response.setContentType("text/html;charset=UTF-8");
 		          if(!rs.next())
 		          {
-		        	  sql = "INSERT INTO Employees VALUES('" + userName + "', '" + userEmail + "', '" + passWord + "');";
+		        	  sql = "INSERT INTO Employees VALUES('" + userName + "', '" + userEmail + "', '" + passWord + "', '" + userGender + "');";
 		        	  stmt.executeUpdate(sql);
 		        	  response.getWriter().write("1");
 		          }

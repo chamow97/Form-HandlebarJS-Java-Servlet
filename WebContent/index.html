@@ -97,6 +97,7 @@
 			let userEmail = document.getElementById("user-email").value;
 			let userPassword = document.getElementById("user-password").value;
 			let userConfirmPassword = document.getElementById("confirm-password").value;
+			let userGender = document.getElementById("user-gender").value;
 			let formText = "";
 			// Check for emptiness of the fields
 			if(userName == "" || userEmail == "" || userPassword == "" || userConfirmPassword == "") {
@@ -121,6 +122,7 @@
 				userDetails["userName"] = userName;
 				userDetails["userEmail"] = userEmail;
 				userDetails["userPassword"] = userPassword;
+				userDetails["userGender"] = userGender;
 				$.ajax({
 				    type: "POST",
 				    url: "/UserForm/FormServlet",
