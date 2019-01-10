@@ -15,7 +15,7 @@
 	<!-- Handlebars -->
 	<script type="text/javascript" src="handlebars-v4.0.12.js"></script>
 	<!-- Form handlebar -->
-	<script type="text/javascript" src="login.js"></script>
+	<script type="text/javascript" src="form.js"></script>
 </head>
 <body>
 	<div id="heading"></div>
@@ -26,59 +26,53 @@
 		// Registering the template
 		// var templateInfo = document.getElementById("the-template").innerHTML;
 		// var template = Handlebars.compile(templateInfo);
-		
-		function checkSession() {
-			$.ajax({
-			    type: "GET",
-			    url: "/UserForm/FormServlet",
-			    data: {"action": "sessionCheck"},
-			    contentType: "application/json",
-			    dataType: "json",
-			    success: function(result){
-			    	if(JSON.stringify(result) == 0) {
-			    		return;
-			    	}
-			    	else {
-			    		window.location.href = "http://localhost:8080/UserForm/index.html";
-			    	}
-			    },
-			    error: function(result) {
-			    	if(JSON.stringify(result) == 0) {
-			    		return;
-			    	}
-			    	else {
-			    		window.location.href = "http://localhost:8080/UserForm/index.html";
-			    	}
-			    }
-			});
-		}
-		
-		window.onload = checkSession;
-		
-		var template = Handlebars.templates['login'];
+		var template = Handlebars.templates['form'];
 
 		// Partial Helper for Heading
 
 		Handlebars.registerPartial("heading", '<{{tagName}} class = "{{className}}">{{heading}}</{{tagName}}>');
 		var headingInfo = template({
-			heading: "Login",
+			heading: "Example Form using Handlebar JS",
 			className: "top-margin-1 bold-text center-text"
 		});
 		document.getElementById("heading").innerHTML += headingInfo;
 
 		// Helper for Form
 		var personInfo = template({
+			name: {
+				tagId: "user-name",
+				tagName: "Name",
+				tagPlaceHolder: "Enter your name",
+				tagType: "text"
+			},
 			email: {
 				tagId: "user-email",
 				tagName: "E-Mail",
 				tagPlaceHolder: "Enter your E-Mail ID",
 				tagType: "text"
 			},
+			gender: {
+				tagId: "user-gender",
+				tagName: "Gender",
+				tagClass: "form-check-inline",
+				tagType: "radio",
+				tagChoices: [
+					{choice: "Male",subtagClass: "active", subtagName: "gender-choice"},
+					{choice: "Female", subtagClass: "", subtagName: "gender-choice"},
+					{choice: "Other", subtagClass: "", subtagName: "gender-choice"}
+				]
+			},
 			password: {
 				tagId: "user-password",
 				tagName: "Password",
 				tagType: "password",
 				tagPlaceHolder: "Enter your password"
+			},
+			confirmPassword: {
+				tagId: "confirm-password",
+				tagName: "Confirm Password",
+				tagType: "password",
+				tagPlaceHolder: "Confirm your password"
 			},
 			buttons: [
 				{choice: "Submit", buttonType: "button", tagClass: "btn btn-success", buttonFunction: "return submitForm()"},
@@ -98,11 +92,21 @@
 		}
 
 		function submitForm() {
-			let userEmail = document.getElementById("user-email").value;
+			let userName = (document.getElementById("user-name").value).replace(/\s+/g,'');
 			let userPassword = document.getElementById("user-password").value;
+			let userConfirmPassword = document.getElementById("confirm-password").value;
+			let userGenderNode = document.getElementsByName("gender-choice");
+			let userGender = "o";
 			let formText = "";
+			let userEmail = document.getElementById("user-email").value;
+			if(userGenderNode[0].checked) {
+				userGender = "m";
+			}
+			else if(userGenderNode[1].checked) {
+				userGender = "f";
+			}
 			// Check for emptiness of the fields
-			if(userEmail == "" || userPassword == "") {
+			if(userName == "" || userEmail == "" || userPassword == "" || userConfirmPassword == "") {
 				formText = "<span class='red-text'>No field should be empty!</span>";
 			}
 
@@ -112,35 +116,39 @@
 				formText = "<span class='red-text'>E-mail format does not match!</span>";
 			}
 
+			//Check for Password equality
+
+			else if(String(userPassword) != String(userConfirmPassword)) {
+				formText = "<span class='red-text'>Password does not match!</span>";
+			}
+
 			// Success
 			else {
 				var userDetails = {};
+				userDetails["userName"] = userName;
 				userDetails["userEmail"] = userEmail;
 				userDetails["userPassword"] = userPassword;
-				userDetails["action"] = "login";
+				userDetails["userGender"] = userGender;
 				$.ajax({
-				    type: "GET",
+				    type: "POST",
 				    url: "/UserForm/FormServlet",
-				    data: {"userEmail" : userEmail, "userPassword": userPassword, "action": "login"},
+				    data: JSON.stringify(userDetails),
 				    contentType: "application/json",
 				    dataType: "json",
 				    success: function(result){
 				    	if(JSON.stringify(result) == 0) {
-				    		formText = "<span class='red-text'>Invalid Credentials!</span>";
-				    		document.getElementById("form-errors").innerHTML = formText;
+				    		formText = "<span class='red-text'>User with that E-mail ID already exists!</span>";
+				    		resetForm();
+							document.getElementById("form-errors").innerHTML = formText;
 				    	}
 				    	else {
-				    		window.location.href = "http://localhost:8080/UserForm/index.html";
+				    		formText = "<span class='green-text'>Account creation successful!</span>";
+				    		resetForm();
+							document.getElementById("form-errors").innerHTML = formText;
 				    	}
 				    },
 				    error: function(result) {
-				    	if(JSON.stringify(result) == 0) {
-				    		formText = "<span class='red-text'>Invalid Credentials!</span>";
-				    		document.getElementById("form-errors").innerHTML = formText;
-				    	}
-				    	else {
-				    		window.location.href = "http://localhost:8080/UserForm/index.html";
-				    	}
+				    	
 				    }
 				});
 			}

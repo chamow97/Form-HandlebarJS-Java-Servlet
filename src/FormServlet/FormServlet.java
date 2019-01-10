@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +28,11 @@ import sun.security.provider.MD5;
  */
 @WebServlet("/FormServlet")
 public class FormServlet extends HttpServlet {
+	final String DRIVER = "com.mysql.jdbc.Driver";  
+    final String DB_URL="jdbc:mysql://localhost/TEST";
+    //  Database credentials
+    final String USER = "root";
+    final String PASS = "root";
 	private static final long serialVersionUID = 1L;
  
     /**
@@ -42,9 +48,71 @@ public class FormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String userEmail = request.getParameter("userEmail");
-		String userPassword = request.getParameter("userPassword");
-		
+		String action = request.getParameter("action");
+		if(action.equals("login"))
+		{
+			String userEmail = request.getParameter("userEmail");
+			String userPassword = request.getParameter("userPassword");		    
+		      try {
+		          // Register JDBC driver
+		          Class.forName("com.mysql.jdbc.Driver");
+
+		          Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		          
+		          Statement stmt = conn.createStatement();
+		          String sql;
+		          sql = "SELECT userName FROM Employees WHERE userEmail = '" + userEmail + "' AND userPassword = '" + userPassword + "';";
+		          ResultSet rs = stmt.executeQuery(sql);
+		          response.setContentType("text/html;charset=UTF-8");
+		          if(!rs.next())
+		          {
+		        	  response.getWriter().write("0");
+		          }
+		          else
+		          {
+		        	  try
+		        	  {
+		        		  String userName = rs.getString(1);
+		        		  HttpSession session = request.getSession();
+			        	  session.setAttribute("user", userName);
+			        	  response.setStatus(200);
+			        	  response.getWriter().write("1");
+		        	  }
+		        	  catch(Exception e) {
+		        		  
+		        	  }
+		        	  
+		          }
+
+		          // Clean-up environment
+		          rs.close();
+		          stmt.close();
+		          conn.close();
+		       } catch(SQLException se) {
+		          //Handle errors for JDBC
+		          se.printStackTrace();
+		       } catch(Exception e) {
+		          //Handle errors for Class.forName
+		          e.printStackTrace();
+		       }
+		}
+		else if(action.equals("sessionCheck")) {
+			HttpSession session = request.getSession();
+			response.setStatus(200);
+			if(session == null) {
+				response.getWriter().write("0");
+			}
+			else {
+				String sessionName = "user";
+				String userName = (String)session.getAttribute(sessionName);
+				response.getWriter().write(userName);
+			}
+		}
+		else if(action.equals("logout")) {
+			System.out.println("AA");
+			HttpSession session = request.getSession();
+			session.invalidate();
+		}
 	}
 
 	/**
@@ -66,13 +134,8 @@ public class FormServlet extends HttpServlet {
 			String passWord = jObj.getString("userPassword");
 			char userGender = jObj.getString("userGender").charAt(0);
 			// JDBC driver name and database URL
-		      final String DRIVER = "com.mysql.jdbc.Driver";  
-		      final String DB_URL="jdbc:mysql://localhost/TEST";
-		      PrintWriter out = response.getWriter();
-		      //  Database credentials
-		      final String USER = "root";
-		      final String PASS = "root";
-		      
+				PrintWriter out = response.getWriter();
+		          
 		      try {
 		          // Register JDBC driver
 		          Class.forName("com.mysql.jdbc.Driver");
@@ -118,3 +181,5 @@ public class FormServlet extends HttpServlet {
 	}
 
 }
+
+
