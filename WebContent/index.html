@@ -58,9 +58,9 @@
 				tagClass: "form-check-inline",
 				tagType: "radio",
 				tagChoices: [
-					{choice: "Male",subtagClass: "active"},
-					{choice: "Female", subtagClass: ""},
-					{choice: "Other", subtagClass: ""}
+					{choice: "Male",subtagClass: "active", subtagName: "gender-choice"},
+					{choice: "Female", subtagClass: "", subtagName: "gender-choice"},
+					{choice: "Other", subtagClass: "", subtagName: "gender-choice"}
 				]
 			},
 			password: {
@@ -97,8 +97,15 @@
 			let userEmail = document.getElementById("user-email").value;
 			let userPassword = document.getElementById("user-password").value;
 			let userConfirmPassword = document.getElementById("confirm-password").value;
-			let userGender = document.getElementById("user-gender").value;
+			let userGenderNode = document.getElementsByName("gender-choice");
+			let userGender = "o";
 			let formText = "";
+			if(userGenderNode[0].checked) {
+				userGender = "m";
+			}
+			else if(userGenderNode[1].checked) {
+				userGender = "f";
+			}
 			// Check for emptiness of the fields
 			if(userName == "" || userEmail == "" || userPassword == "" || userConfirmPassword == "") {
 				formText = "<span class='red-text'>No field should be empty!</span>";

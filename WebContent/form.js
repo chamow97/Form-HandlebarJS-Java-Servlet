@@ -31,7 +31,9 @@ templates['form'] = template({"1":function(container,depth0,helpers,partials,dat
 
   return "								  <label class=\"btn btn-default "
     + alias4(((helper = (helper = helpers.subtagClass || (depth0 != null ? depth0.subtagClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"subtagClass","hash":{},"data":data}) : helper)))
-    + "\">\n								  <input type=\"radio\">\n								  "
+    + "\">\n								  <input name=\""
+    + alias4(((helper = (helper = helpers.subtagName || (depth0 != null ? depth0.subtagName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"subtagName","hash":{},"data":data}) : helper)))
+    + "\" type=\"radio\">\n								  "
     + alias4(((helper = (helper = helpers.choice || (depth0 != null ? depth0.choice : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"choice","hash":{},"data":data}) : helper)))
     + "\n								  </label>\n";
 },"6":function(container,depth0,helpers,partials,data) {
