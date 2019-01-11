@@ -19,8 +19,12 @@
 		<p class="big-text helvetica">
 			Welcome  <span id="user-name"></span>
 		<p>
-		<div id="sign-up" class="btn btn-lg btn-default nav-button"><a link href="http://localhost:8080/UserForm/signup.html">Sign Up</a></div>
-		<div id="login" class="btn btn-lg btn-default nav-button"><a link href="http://localhost:8080/UserForm/login.html">LogIn</a></div>
+		<div onclick="location.href = 'http://localhost:8080/UserForm/signup.html';" id="sign-up" class="btn btn-lg btn-default nav-button">
+		SignUp
+		</div>
+		<div onclick="location.href = 'http://localhost:8080/UserForm/login.html';" id="login" class="btn btn-lg btn-default nav-button">
+		LogIn
+		</div>
 		<div id="logout" onclick="logoutUser();" class="btn btn-lg btn-default nav-button">Logout</div>
 	</div>
 	<script>

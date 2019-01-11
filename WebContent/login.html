@@ -82,13 +82,17 @@
 			},
 			buttons: [
 				{choice: "Submit", buttonType: "button", tagClass: "btn btn-success", buttonFunction: "return submitForm()"},
-				{choice: "Reset", buttonType: "reset", tagClass: "btn btn-danger", buttonFunction: "resetForm()"}
+				{choice: "Reset", buttonType: "reset", tagClass: "btn btn-danger", buttonFunction: "resetForm()"},
+				{choice: "Home", buttonType: "button", tagClass: "btn btn-primary", buttonFunction: "goHome()"}
 			]
 		});
 		document.getElementById("user-form").innerHTML += personInfo;
 		
 		// Error Function
-
+		function goHome(e) {
+			window.location ='http://localhost:8080/UserForm/index.html';
+		}
+		
 		function resetForm(e) {
 			document.getElementById("form-errors").innerHTML = "";	
 			document.getElementById("user-name").value = "";

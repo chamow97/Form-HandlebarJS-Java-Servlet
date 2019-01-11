@@ -76,13 +76,18 @@
 			},
 			buttons: [
 				{choice: "Submit", buttonType: "button", tagClass: "btn btn-success", buttonFunction: "return submitForm()"},
-				{choice: "Reset", buttonType: "reset", tagClass: "btn btn-danger", buttonFunction: "resetForm()"}
+				{choice: "Reset", buttonType: "reset", tagClass: "btn btn-danger", buttonFunction: "resetForm()"},
+				{choice: "Home", buttonType: "button", tagClass: "btn btn-primary", buttonFunction: "goHome()"}
 			]
 		});
 		document.getElementById("user-form").innerHTML += personInfo;
 		
 		// Error Function
 
+		function goHome(e) {
+			window.location.href='http://localhost:8080/UserForm/index.html';
+		}
+		
 		function resetForm(e) {
 			document.getElementById("form-errors").innerHTML = "";	
 			document.getElementById("user-name").value = "";
@@ -96,14 +101,14 @@
 			let userPassword = document.getElementById("user-password").value;
 			let userConfirmPassword = document.getElementById("confirm-password").value;
 			let userGenderNode = document.getElementsByName("gender-choice");
-			let userGender = "o";
+			let userGender = "m";
 			let formText = "";
 			let userEmail = document.getElementById("user-email").value;
-			if(userGenderNode[0].checked) {
-				userGender = "m";
-			}
-			else if(userGenderNode[1].checked) {
+			if(userGenderNode[1].checked) {
 				userGender = "f";
+			}
+			else if(userGenderNode[2].checked) {
+				userGender = "o";
 			}
 			// Check for emptiness of the fields
 			if(userName == "" || userEmail == "" || userPassword == "" || userConfirmPassword == "") {
@@ -142,9 +147,10 @@
 							document.getElementById("form-errors").innerHTML = formText;
 				    	}
 				    	else {
-				    		formText = "<span class='green-text'>Account creation successful!</span>";
+				    		formText = "<span class='green-text'>Account creation successful! You will be redirected to login page in few seconds</span>";
 				    		resetForm();
 							document.getElementById("form-errors").innerHTML = formText;
+							setTimeout(function(){window.location.href='http://localhost:8080/UserForm/login.html'},5000);
 				    	}
 				    },
 				    error: function(result) {

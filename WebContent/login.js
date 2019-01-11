@@ -36,7 +36,7 @@ templates['login'] = template({"1":function(container,depth0,helpers,partials,da
     + ((stack1 = helpers["with"].call(alias1,(depth0 != null ? depth0.email : depth0),{"name":"with","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "					<br />\n					<br />\n"
     + ((stack1 = helpers["with"].call(alias1,(depth0 != null ? depth0.password : depth0),{"name":"with","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "					<br />\n					<br />\n					<div class=\"col col-sm-offset-3 col-md-offset-5 col-lg-offsert-5\">\n"
+    + "					<br />\n					<br />\n					<div class=\"col col-sm-offset-3 col-md-offset-4 col-lg-offsert-4\">\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.buttons : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "					</div>\n				</div>\n				<div class=\"col-sm-2 col-md-3 col-lg-3\">\n				</div>\n			</div>\n			</div>\n		</form>";
 },"usePartial":true,"useData":true});
