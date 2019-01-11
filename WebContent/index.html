@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Registration Form</title>
+	<title>Handlebar / Servlet</title>
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<!-- jQuery -->
@@ -14,12 +14,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: skyblue;" class="center-text">
+	<h1>Form Using Servlet and Handlebar JS</h1>
 	<div class="top-margin-30">
 		<p class="big-text helvetica">
 			Welcome  <span id="user-name"></span>
 		<p>
 		<div id="sign-up" class="btn btn-lg btn-default nav-button"><a link href="http://localhost:8080/UserForm/signup.html">Sign Up</a></div>
-		<div id="login" href="http://localhost:8080/UserForm/login.html" class="btn btn-lg btn-default nav-button">Login</div>
+		<div id="login" class="btn btn-lg btn-default nav-button"><a link href="http://localhost:8080/UserForm/login.html">LogIn</a></div>
 		<div id="logout" onclick="logoutUser();" class="btn btn-lg btn-default nav-button">Logout</div>
 	</div>
 	<script>
@@ -30,12 +31,17 @@
 		    data: {"action": "sessionCheck"},
 		    contentType: "application/json",
 		    dataType: "json",
+		    async:true,
 		    success: function(result){
-	    		if(JSON.stringify(result) == 0) {
-	    			document.getElementById("user-name").value = "Guest!";
+		    	if(JSON.stringify(result) == 0) {
+	    			document.getElementById("user-name").innerHTML = "Guest!";
+	    			$("#login").show();
+	    			$("#logout").hide();
 		    	}
 		    	else {
-		    		document.getElementById("user-name").value = JSON.stringify(result);
+		    		document.getElementById("user-name").innerHTML = result["responseText"] + "!";
+		    		$("#login").hide();
+	    			$("#logout").show();
 		    	}
 		    },
 		    error: function(result) {
@@ -53,7 +59,7 @@
 		    }
 		});
 	}
-	// checkSession();
+	checkSession();
 	
 	function logoutUser() {
 		$.ajax({

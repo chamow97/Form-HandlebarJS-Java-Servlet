@@ -97,19 +97,21 @@ public class FormServlet extends HttpServlet {
 		       }
 		}
 		else if(action.equals("sessionCheck")) {
-			HttpSession session = request.getSession();
-			response.setStatus(200);
-			if(session == null) {
-				response.getWriter().write("0");
-			}
-			else {
+			try{
+				HttpSession session = request.getSession();
+				response.setStatus(200);
 				String sessionName = "user";
 				String userName = (String)session.getAttribute(sessionName);
 				response.getWriter().write(userName);
+				
 			}
+			catch(Exception e) {
+				response.setStatus(200);
+				response.getWriter().write("0");
+			}
+			
 		}
 		else if(action.equals("logout")) {
-			System.out.println("AA");
 			HttpSession session = request.getSession();
 			session.invalidate();
 		}
