@@ -51,4 +51,9 @@ body {
 	margin-right: 50px;
 }
 
+.field-error {
+	border-color: red !important;
+    border-width:1px !important; 
+    border-style:solid !important;
+}
 

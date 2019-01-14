@@ -87,15 +87,32 @@
 		function goHome(e) {
 			window.location.href='http://localhost:8080/UserForm/index.html';
 		}
-		
+
+
+		function removeErrorClass() {
+			if($("#user-name").hasClass("field-error")) {
+				$("#user-name").removeClass("field-error");
+			}
+			if($("#user-email").hasClass("field-error")) {
+				$("#user-email").removeClass("field-error");
+			}
+			if($("#user-password").hasClass("field-error")) {
+				$("#user-password").removeClass("field-error");
+			}
+			if($("#confirm-password").hasClass("field-error")) {
+				$("#confirm-password").removeClass("field-error");
+			}
+		}
+			
 		function resetForm(e) {
+			removeErrorClass();
 			document.getElementById("form-errors").innerHTML = "";	
 			document.getElementById("user-name").value = "";
 			document.getElementById("user-email").value = "";
 			document.getElementById("user-password").value = "";
 			document.getElementById("confirm-password").value = "";
 		}
-
+		
 		function submitForm() {
 			let userName = (document.getElementById("user-name").value).replace(/\s+/g,'');
 			let userPassword = document.getElementById("user-password").value;
@@ -104,6 +121,7 @@
 			let userGender = "m";
 			let formText = "";
 			let userEmail = document.getElementById("user-email").value;
+			removeErrorClass();
 			if(userGenderNode[1].checked) {
 				userGender = "f";
 			}
@@ -112,18 +130,33 @@
 			}
 			// Check for emptiness of the fields
 			if(userName == "" || userEmail == "" || userPassword == "" || userConfirmPassword == "") {
+				if(userName == "") {
+					$("#user-name").addClass("field-error");
+				}
+				if(userEmail == "") {
+					$("#user-email").addClass("field-error");
+				}
+				if(userPassword == "") {
+					$("#user-password").addClass("field-error");
+				}
+				if(userConfirmPassword == "") {
+					$("#confirm-password").addClass("field-error");
+				}
 				formText = "<span class='red-text'>No field should be empty!</span>";
 			}
 
 			// Check for E-mail using Regex
 
 			else if(!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(String(userEmail).toLowerCase())) {
+				$("#user-email").addClass("field-error");
 				formText = "<span class='red-text'>E-mail format does not match!</span>";
 			}
 
 			//Check for Password equality
 
 			else if(String(userPassword) != String(userConfirmPassword)) {
+				$("#user-password").addClass("field-error");
+				$("#confirm-password").addClass("field-error");
 				formText = "<span class='red-text'>Password does not match!</span>";
 			}
 
