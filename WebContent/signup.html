@@ -179,11 +179,15 @@
 				    		resetForm();
 							document.getElementById("form-errors").innerHTML = formText;
 				    	}
-				    	else {
+				    	else if(JSON.stringify(result) == 1) {
 				    		formText = "<span class='green-text'>Account creation successful! You will be redirected to login page in few seconds</span>";
 				    		resetForm();
 							document.getElementById("form-errors").innerHTML = formText;
 							setTimeout(function(){window.location.href='http://localhost:8080/UserForm/login.html'},5000);
+				    	}
+				    	else {
+				    		formText = "<span class='red-text'>Error! Try again later.</span>";
+				    		document.getElementById("form-errors").innerHTML = formText;
 				    	}
 				    },
 				    error: function(result) {

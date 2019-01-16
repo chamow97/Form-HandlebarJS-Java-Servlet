@@ -64,7 +64,10 @@ public class FormServlet extends HttpServlet {
 		          sql = "SELECT userName FROM Employees WHERE userEmail = '" + userEmail + "' AND userPassword = '" + userPassword + "';";
 		          ResultSet rs = stmt.executeQuery(sql);
 		          response.setContentType("text/html;charset=UTF-8");
-		          if(!rs.next())
+		          if(userEmail.length() == 0 || userPassword.length() == 0) {
+		        	  response.getWriter().write("-1");
+		          }
+		          else if(!rs.next())
 		          {
 		        	  response.getWriter().write("0");
 		          }
@@ -143,13 +146,15 @@ public class FormServlet extends HttpServlet {
 		          Class.forName("com.mysql.jdbc.Driver");
 
 		          Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
 		          Statement stmt = conn.createStatement();
 		          String sql;
 		          sql = "SELECT * FROM Employees WHERE userEmail = '" + userEmail + "';";
 		          ResultSet rs = stmt.executeQuery(sql);
 		          response.setContentType("text/html;charset=UTF-8");
-		          if(!rs.next())
+		          if(userName.length() == 0 || userEmail.length() == 0 || passWord.length() == 0) {
+		        	  response.getWriter().write("-1");
+		          }
+		          else if(!rs.next())
 		          {
 		        	  sql = "INSERT INTO Employees VALUES('" + userName + "', '" + userEmail + "', '" + passWord + "', '" + userGender + "');";
 		        	  stmt.executeUpdate(sql);

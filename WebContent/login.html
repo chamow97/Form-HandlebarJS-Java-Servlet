@@ -151,8 +151,12 @@
 				    		formText = "<span class='red-text'>Invalid Credentials!</span>";
 				    		document.getElementById("form-errors").innerHTML = formText;
 				    	}
-				    	else {
+				    	else if(JSON.stringify(result) == 1) {
 				    		window.location.href = "http://localhost:8080/UserForm/index.html";
+				    	}
+				    	else {
+				    		formText = "<span class='red-text'>Error. Try again later.</span>";
+				    		document.getElementById("form-errors").innerHTML = formText;
 				    	}
 				    },
 				    error: function(result) {
