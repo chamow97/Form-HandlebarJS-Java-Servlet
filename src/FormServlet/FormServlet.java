@@ -58,17 +58,26 @@ public class FormServlet extends HttpServlet {
 		          Class.forName("com.mysql.jdbc.Driver");
 
 		          Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-		          
+
 		          Statement stmt = conn.createStatement();
-		          String sql;
+		          Statement stmt1 = conn.createStatement();
+		          String sql, sql1;
 		          sql = "SELECT userName FROM Employees WHERE userEmail = '" + userEmail + "' AND userPassword = '" + userPassword + "';";
+		          sql1 = "SELECT userName FROM Employees WHERE userEmail = '" + userEmail + "';";
+		          ResultSet rs1 = stmt1.executeQuery(sql1);
 		          ResultSet rs = stmt.executeQuery(sql);
 		          response.setContentType("text/html;charset=UTF-8");
 		          if(userEmail.length() == 0 || userPassword.length() == 0) {
+		        	  response.setStatus(200);
 		        	  response.getWriter().write("-1");
+		          }
+		          else if(!rs1.next()) {
+		        	  response.setStatus(200);
+		        	  response.getWriter().write("2");
 		          }
 		          else if(!rs.next())
 		          {
+		        	  response.setStatus(200);
 		        	  response.getWriter().write("0");
 		          }
 		          else
@@ -89,7 +98,9 @@ public class FormServlet extends HttpServlet {
 
 		          // Clean-up environment
 		          rs.close();
+		          rs1.close();
 		          stmt.close();
+		          stmt1.close();
 		          conn.close();
 		       } catch(SQLException se) {
 		          //Handle errors for JDBC

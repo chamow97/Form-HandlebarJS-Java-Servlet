@@ -148,11 +148,17 @@
 				    dataType: "json",
 				    success: function(result){
 				    	if(JSON.stringify(result) == 0) {
-				    		formText = "<span class='red-text'>Invalid Credentials!</span>";
+				    		formText = "<span class='red-text'>Wrong Password!</span>";
 				    		document.getElementById("form-errors").innerHTML = formText;
+				    		$("#user-password").addClass("field-error");
 				    	}
 				    	else if(JSON.stringify(result) == 1) {
 				    		window.location.href = "http://localhost:8080/UserForm/index.html";
+				    	}
+				    	else if(JSON.stringify(result) == 2) {
+				    		formText = "<span class='red-text'>The E-mail entered is not registered.</span>";
+				    		document.getElementById("form-errors").innerHTML = formText;
+							$("#user-email").addClass("field-error");
 				    	}
 				    	else {
 				    		formText = "<span class='red-text'>Error. Try again later.</span>";
@@ -160,12 +166,23 @@
 				    	}
 				    },
 				    error: function(result) {
+				    	alert(JSON.stringify(result));
 				    	if(JSON.stringify(result) == 0) {
-				    		formText = "<span class='red-text'>Invalid Credentials!</span>";
+				    		formText = "<span class='red-text'>Wrong Password!</span>";
 				    		document.getElementById("form-errors").innerHTML = formText;
+				    		$("#user-password").addClass("field-error");
+				    	}
+				    	else if(JSON.stringify(result) == 1) {
+				    		window.location.href = "http://localhost:8080/UserForm/index.html";
+				    	}
+				    	else if(JSON.stringify(result) == 2) {
+				    		formText = "<span class='red-text'>The E-mail entered is not registered.</span>";
+				    		document.getElementById("form-errors").innerHTML = formText;
+							$("#user-email").addClass("field-error");
 				    	}
 				    	else {
-				    		window.location.href = "http://localhost:8080/UserForm/index.html";
+				    		formText = "<span class='red-text'>Error. Try again later.</span>";
+				    		document.getElementById("form-errors").innerHTML = formText;
 				    	}
 				    }
 				});
